@@ -1,0 +1,42 @@
+
+<div class="container">
+
+  <h1 class="text-center">Kinokasse</h1>
+  <br/><br/><br/>
+  <div class="row align-items-start border-bottom border-top border-left border-right" *ngFor="let filmModel of filmModels">
+    <div class="col-lg-12"><br/></div>
+    <div class="col col-lg-3">
+      <h5>{{filmModel.name}}</h5>
+    </div>
+    <div class="col col-lg-9">
+
+      <table class="table table-bordered table-striped">
+
+        <thead class="thead-dark">
+        <tr>
+          <th *ngFor="let filmWeekDay of filmModel.filmWeekDays">
+            <span>{{filmWeekDay.weekdayName}}</span>
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+          <td *ngFor="let filmWeekDay of filmModel.filmWeekDays">
+
+            <div *ngFor="let presentation of filmWeekDay.presentations">
+              <a class="link-primary" style="cursor: pointer" (click)="navigateToPresentation(presentation.id)">{{presentation.startTime}}</a>
+            </div>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+  </div>
+
+
+</div>

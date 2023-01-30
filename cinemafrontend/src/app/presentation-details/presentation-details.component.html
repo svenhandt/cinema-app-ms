@@ -1,0 +1,77 @@
+
+<h2 class="text-center">{{presentation?.filmName}}</h2>
+<h4 class="text-center">{{presentation?.roomName
+    + ', ' + presentation?.weekDay
+    + ' ' + presentation?.startTime }}</h4>
+
+<br/><br/>
+<h5 class="text-center">Bitte treffen Sie Ihre Platzwahl</h5>
+
+<br/><br/>
+
+<div class="border-top"></div>
+
+<br/><br/><br/>
+
+
+
+
+
+<table class="table table-borderless">
+
+  <tbody>
+  <tr *ngFor="let seatRow of room?.seatRows">
+    <td>
+      <span>{{seatRow.seatRow}}</span>
+    </td>
+
+    <td *ngFor="let seat of seatRow.seats">
+
+      <input type="checkbox" class="seatCheckbox"
+             *ngIf="seat?.seatType === 'AVAILABLE'"
+            (click)="isInBooking(seat.id) ? onRemoveSeatFromBooking(seat.id) : onAddSeatToBooking(seat.id)"
+            [checked]="isInBooking(seat.id)"/>
+
+
+      <input type="checkbox" *ngIf="seat?.seatType === 'OCCUPPIED'"
+             disabled="disabled"/>
+
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<br/>
+
+<div class="row">
+  <div class="col-xl-8"></div>
+  <div class="col-xl-4">
+
+    <span class="lead" [style]="currentTotalforBooking > 0 ?  'display: inline;' : 'display: none;'">Gesamtsumme: {{currentTotalforBooking | currency: 'EUR': 'symbol'}}</span>
+    &nbsp;&nbsp;
+    <input
+      type="button"
+      value="Buchen"
+      class="btn btn-primary btn-lg float-right"
+      [style]="currentTotalforBooking > 0 ? 'display: inline;' : 'display: none;'"
+      (click)="onInitiateBooking()"
+    />
+
+  </div>
+</div>
+
+<br/><br/>
+
+<hr/>
+
+<div class="row">
+  <div>
+    &nbsp;&nbsp;<a class="link-primary" routerLink="/presentations">Zurück zur Übersicht</a>
+  </div>
+</div>
+
+
+
+
+

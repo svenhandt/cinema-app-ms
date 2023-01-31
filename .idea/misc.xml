@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/cinemaapp.roomsms/pom.xml" />
         <option value="$PROJECT_DIR$/cinemaapp.api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/cinemaapp.namingserver/pom.xml" />
+        <option value="$PROJECT_DIR$/shared/pom.xml" />
       </list>
     </option>
   </component>

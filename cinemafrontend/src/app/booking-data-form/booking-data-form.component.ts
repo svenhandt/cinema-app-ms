@@ -95,7 +95,7 @@ export class BookingDataFormComponent implements OnInit, OnDestroy {
 
   createBookingCommand(form: NgForm) {
     const bookingCommand = {
-      id: this.presentationId + '_' + new Date().getDate(),
+      presentationId: this.presentationId,
       seatIds: this.seatIdsForBooking,
       filmName: this.presentation?.filmName,
       roomName: this.presentation?.roomName,

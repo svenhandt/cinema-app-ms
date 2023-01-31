@@ -10,4 +10,9 @@ public class Seat {
     private int seatRow;
     private int numberInSeatRow;
 
+    public Seat(String id, int seatRow, int numberInSeatRow) {
+        this.id = id;
+        this.seatRow = seatRow;
+        this.numberInSeatRow = numberInSeatRow;
+    }
 }

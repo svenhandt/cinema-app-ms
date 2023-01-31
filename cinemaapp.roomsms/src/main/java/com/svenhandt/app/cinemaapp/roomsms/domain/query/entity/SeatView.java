@@ -13,7 +13,6 @@ public class SeatView {
     @Id
     private String id;
 
-    private int seatRow;
     private int numberInSeatRow;
     private SeatType seatType;
 

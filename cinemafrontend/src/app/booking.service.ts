@@ -13,33 +13,15 @@ import {SeatModel} from "./models/seat.model";
 export class BookingService {
 
   sessionBookings: BookingModel[] = [];
-  currentBookingSubject = new BehaviorSubject<BookingModel>(new BookingModel());
 
   constructor(private http: HttpClient) { }
-
-  addToSessionBookings(booking: BookingModel) {
-    this.sessionBookings.push(booking);
-  }
-
-  getSessionBookingForPresentationId(presentationId: number) {
-    let result: BookingModel | undefined;
-    /*
-    for(let sessionBooking of this.sessionBookings) {
-      if(presentationId === sessionBooking?.presentation?.id) {
-        result = sessionBooking;
-      }
-    }
-
-     */
-    return result;
-  }
 
   clearSessionBookings() {
     this.sessionBookings.splice(0, this.sessionBookings.length);
   }
 
   createBookingInBackend(bookingCommand: any) {
-    return this.http.post(environment.cinemaBaseUrl + 'booking/save', bookingCommand);
+    return this.http.post(environment.cinemaBaseUrl + 'ordersms/booking/save', bookingCommand);
   }
 
   fetchBookingConfirmation(id: number) {

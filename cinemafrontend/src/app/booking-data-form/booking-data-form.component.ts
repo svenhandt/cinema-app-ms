@@ -88,7 +88,8 @@ export class BookingDataFormComponent implements OnInit, OnDestroy {
     const bookingCommand = this.createBookingCommand(form);
     this.bookingService.createBookingInBackend(bookingCommand).subscribe(
       (result: any) => {
-        this.handleCreateBookingResult(result);
+        console.log('Booking created');
+        //this.handleCreateBookingResult(result);
       }
     );
   }

@@ -4,23 +4,21 @@ import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.CreateBookingCommand;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@CrossOrigin("${crossorigin.angular.http}")
 @RestController
+@RequestMapping("/booking")
 public class BookingController {
 
     @Autowired
     private CommandGateway commandGateway;
 
-    @PostMapping("/booking/save")
+    @PostMapping("/save")
     public ResponseEntity<String> saveBooking(@RequestBody CreateBookingCommand createBookingCommand) {
         ResponseEntity<String> result;
         try {

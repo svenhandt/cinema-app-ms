@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/films")
-@CrossOrigin("${crossorigin.angular.http}")
 public class FilmsQueryController {
 
     @Autowired

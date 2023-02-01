@@ -1,7 +1,6 @@
 package com.svenhandt.app.cinemaapp.ordersms.domain.command;
 
 import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.BookingCreatedEvent;
-import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.BookingCreationFinishedEvent;
 import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.CreateBookingCommand;
 import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.SeatCreatedEvent;
 import org.apache.commons.collections4.CollectionUtils;
@@ -44,12 +43,6 @@ public class Booking {
         List<SeatCreatedEvent> seatCreatedEvents = buildSeatCreatedEvents(command);
         AggregateLifecycle.apply(bookingCreatedEvent);
         seatCreatedEvents.forEach(seatCreatedEvent -> AggregateLifecycle.apply(seatCreatedEvent));
-        BookingCreationFinishedEvent bookingCreationFinishedEvent = BookingCreationFinishedEvent
-                .builder()
-                .bookingId(command.getId())
-                .seatIds(command.getSeatIds())
-                .build();
-        AggregateLifecycle.apply(bookingCreationFinishedEvent);
     }
 
     private void check(CreateBookingCommand command) {
@@ -77,10 +70,11 @@ public class Booking {
     }
 
     private BookingCreatedEvent buildBookingCreatedEvent(CreateBookingCommand command) {
+        String maskedCardNo = StringUtils.substring(command.getCardNo(), 0, 4) + "************";
         return BookingCreatedEvent
                 .builder()
                 .id(command.getId())
-                .cardNo(command.getCardNo())
+                .cardNo(maskedCardNo)
                 .filmName(command.getFilmName())
                 .roomName(command.getRoomName())
                 .weekDay(command.getWeekDay())

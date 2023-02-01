@@ -3,6 +3,8 @@ package com.svenhandt.app.cinemaapp.roomsms.domain.command;
 import com.svenhandt.app.cinemaapp.roomsms.domain.coreapi.CreateRoomCommand;
 import com.svenhandt.app.cinemaapp.roomsms.domain.coreapi.RoomCreatedEvent;
 import com.svenhandt.app.cinemaapp.roomsms.domain.coreapi.SeatForRoomCreatedEvent;
+import com.svenhandt.app.cinemaapp.shared.domain.coreapi.AddBookingToSeatCommand;
+import com.svenhandt.app.cinemaapp.shared.domain.coreapi.BookingAddedToSeatEvent;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.CommandHandler;
@@ -25,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Aggregate
 public class Room {

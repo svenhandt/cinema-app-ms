@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rooms")
-@CrossOrigin("${crossorigin.angular.http}")
 public class RoomsQueryController {
 
     @Autowired

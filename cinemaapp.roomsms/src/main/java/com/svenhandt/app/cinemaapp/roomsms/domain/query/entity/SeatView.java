@@ -4,6 +4,7 @@ import com.svenhandt.app.cinemaapp.roomsms.domain.query.enums.SeatType;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "seats")
@@ -22,4 +23,8 @@ public class SeatView {
             CascadeType.REFRESH})
     @JoinColumn(name = "seat_row_id")
     private SeatRowView seatRow;
+
+    @OneToMany(mappedBy = "seatView",
+            cascade = CascadeType.ALL)
+    private List<SeatToBookingView> seatToBookingViews;
 }

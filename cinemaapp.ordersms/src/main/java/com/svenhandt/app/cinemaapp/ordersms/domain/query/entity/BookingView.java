@@ -18,6 +18,7 @@ public class BookingView {
     private String roomName;
     private String weekDay;
     private String startTime;
+    private boolean isValid;
 
     @OneToMany(mappedBy = "bookingView",
             cascade = CascadeType.ALL)

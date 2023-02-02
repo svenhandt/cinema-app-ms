@@ -3,6 +3,7 @@ package com.svenhandt.app.cinemaapp.ordersms.domain.saga;
 import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.SeatCreatedEvent;
 import com.svenhandt.app.cinemaapp.shared.domain.coreapi.AddBookingToSeatCommand;
 import com.svenhandt.app.cinemaapp.shared.domain.coreapi.BookingAddedToSeatEvent;
+import com.svenhandt.app.cinemaapp.shared.domain.coreapi.RemoveBookingFromSeatCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
@@ -23,17 +24,31 @@ public class BookingSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "bookingId")
     public void handle(SeatCreatedEvent event) {
-        AddBookingToSeatCommand command = AddBookingToSeatCommand
+        AddBookingToSeatCommand addCommand = createAddBookingToSeatCommand(event);
+        commandGateway.send(addCommand, (commandMessage, commandResultMessage) -> {
+            if(commandResultMessage.isExceptional()) {
+                RemoveBookingFromSeatCommand removeCommand = createRemoveBookingFromSeatCommand(event);
+                commandGateway.send(removeCommand);
+            }
+        });
+    }
+
+    private AddBookingToSeatCommand createAddBookingToSeatCommand(SeatCreatedEvent event) {
+        return AddBookingToSeatCommand
                 .builder()
                 .roomId(getRoomIdFromSeatId(event.getId()))
                 .seatId(event.getId())
                 .bookingId(event.getBookingId())
                 .build();
-        commandGateway.send(command, (commandMessage, commandResultMessage) -> {
-            if(commandResultMessage.isExceptional()) {
-                //...
-            }
-        });
+    }
+
+    private RemoveBookingFromSeatCommand createRemoveBookingFromSeatCommand(SeatCreatedEvent event) {
+        return RemoveBookingFromSeatCommand
+                .builder()
+                .roomId(getRoomIdFromSeatId(event.getId()))
+                .seatId(event.getId())
+                .bookingId(event.getBookingId())
+                .build();
     }
 
     private String getRoomIdFromSeatId(String seatId) {

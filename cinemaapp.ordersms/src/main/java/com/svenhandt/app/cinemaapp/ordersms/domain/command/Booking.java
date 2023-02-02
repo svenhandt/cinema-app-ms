@@ -28,6 +28,7 @@ public class Booking {
     private String roomName;
     private String weekDay;
     private String startTime;
+    private boolean isValid;
 
     @AggregateMember
     private List<Seat> seats;
@@ -134,6 +135,7 @@ public class Booking {
         this.roomName = event.getRoomName();
         this.weekDay = event.getWeekDay();
         this.startTime = event.getStartTime();
+        this.isValid = true;
     }
 
     @EventSourcingHandler

@@ -30,6 +30,7 @@ public class BookingViewsProjection {
         bookingView.setRoomName(event.getRoomName());
         bookingView.setWeekDay(event.getWeekDay());
         bookingView.setStartTime(event.getStartTime());
+        bookingView.setValid(true);
         bookingViewsRepository.save(bookingView);
     }
 

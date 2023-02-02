@@ -16,9 +16,9 @@
 
 <div class="col-md-4 offset-md-4">
 
-  <h6 class="alert alert-danger" *ngIf="backendValidationError">Die Buchung war nicht erfolgreich. Bitte kontrollieren Sie Ihre Eingaben.</h6>
-  <br *ngIf="backendValidationError" />
-  <br *ngIf="backendValidationError" />
+  <h6 class="alert alert-danger" *ngIf="orderCreationError">Die Buchung war nicht erfolgreich. Wir sind leider unfähig, versuchen Sie es besser bei Cineplexx.</h6>
+  <br *ngIf="orderCreationError" />
+  <br *ngIf="orderCreationError" />
 
   <form #bookingForm="ngForm" (ngSubmit)="onSubmitBookingForm(bookingForm)" appExpiryDate>
 

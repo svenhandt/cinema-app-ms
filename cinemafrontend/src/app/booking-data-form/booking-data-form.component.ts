@@ -17,7 +17,7 @@ export class BookingDataFormComponent implements OnInit, OnDestroy {
   presentation: PresentationModel | undefined;
   expiryMonths = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   expiryYears: string[] = [];
-  backendValidationError = false;
+  orderCreationError = false;
   seatIdsForBooking: string[] = [];
   currentTotalforBooking: number = 0;
   paramsSubscription: Subscription | undefined;
@@ -88,8 +88,7 @@ export class BookingDataFormComponent implements OnInit, OnDestroy {
     const bookingCommand = this.createBookingCommand(form);
     this.bookingService.createBookingInBackend(bookingCommand).subscribe(
       (result: any) => {
-        console.log('Booking created');
-        //this.handleCreateBookingResult(result);
+        this.handleCreateBookingResult(result);
       }
     );
   }
@@ -109,12 +108,12 @@ export class BookingDataFormComponent implements OnInit, OnDestroy {
   }
 
   handleCreateBookingResult(result: any) {
-    if(result['createBookingStatus'] === 'FORM_ERROR') {
-      this.backendValidationError = true;
+    if(result['createBookingStatus'] === 'ERROR') {
+      this.orderCreationError = true;
     }
     else if(result['createBookingStatus'] === 'OK') {
-      this.backendValidationError = false;
-      this.bookingService.clearSessionBookings();
+      this.orderCreationError = false;
+      sessionStorage.clear();
       const bookingId = result['bookingId']
       this.router.navigate(['/bookingConfirmation/' + bookingId]);
     }

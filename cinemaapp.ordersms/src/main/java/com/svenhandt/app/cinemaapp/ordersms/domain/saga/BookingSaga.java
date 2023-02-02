@@ -1,8 +1,11 @@
 package com.svenhandt.app.cinemaapp.ordersms.domain.saga;
 
+import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.BookingSetInvalidEvent;
 import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.SeatCreatedEvent;
+import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.SetBookingInvalidCommand;
 import com.svenhandt.app.cinemaapp.shared.domain.coreapi.AddBookingToSeatCommand;
 import com.svenhandt.app.cinemaapp.shared.domain.coreapi.BookingAddedToSeatEvent;
+import com.svenhandt.app.cinemaapp.shared.domain.coreapi.BookingRemovedFromSeatEvent;
 import com.svenhandt.app.cinemaapp.shared.domain.coreapi.RemoveBookingFromSeatCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.modelling.saga.EndSaga;
@@ -66,10 +69,25 @@ public class BookingSaga {
         return resultBuilder.toString();
     }
 
+    @SagaEventHandler(associationProperty = "bookingId")
+    public void handle(BookingRemovedFromSeatEvent event) {
+        SetBookingInvalidCommand setBookingInvalidCommand = SetBookingInvalidCommand
+                .builder()
+                .bookingId(event.getBookingId())
+                .build();
+        commandGateway.send(setBookingInvalidCommand);
+    }
+
     @EndSaga
     @SagaEventHandler(associationProperty = "bookingId")
     public void handle(BookingAddedToSeatEvent event) {
         LOG.info("Booking with id " + event.getBookingId() + " added to seat " + event.getSeatId());
+    }
+
+    @EndSaga
+    @SagaEventHandler(associationProperty = "bookingId")
+    public void handle(BookingSetInvalidEvent event) {
+        LOG.error("Booking with id " + event.getBookingId() + " setToInvalid ");
     }
 
 }

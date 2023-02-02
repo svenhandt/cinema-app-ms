@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 @Component
-public class CreateFilmCommandInterceptor  implements MessageDispatchInterceptor<CommandMessage<?>> {
+public class CreateFilmCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
 
     private FilmViewsRepository filmViewsRepository;
 

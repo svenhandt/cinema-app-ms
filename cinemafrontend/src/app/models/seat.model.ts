@@ -3,6 +3,7 @@
 export class SeatModel {
 
   private _id: string | undefined;
+  private _seatRow: string | undefined;
   private _numberInSeatRow: number | undefined;
   private _seatType: string | undefined;
 
@@ -13,6 +14,14 @@ export class SeatModel {
 
   set id(value: string | undefined) {
     this._id = value;
+  }
+
+  get seatRow(): string | undefined {
+    return this._seatRow;
+  }
+
+  set seatRow(value: string | undefined) {
+    this._seatRow = value;
   }
 
   get numberInSeatRow(): number | undefined {

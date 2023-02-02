@@ -1,84 +1,92 @@
 
-<h2 class="d-print-none text-center">Vielen Dank!</h2>
-<h4 class="text-center">Nachfolgend finden Sie Ihre Buchungsdaten</h4>
-<h6 class="d-print-none text-center">Bitte <a href="javascript:print()">Drucken</a> Sie sich Ihre Daten aus und bringen Sie sie mit. </h6>
+<div *ngIf="!booking.isValid">
+  <p>Die Buchung war leider nicht erfolgreich. Wir sind wohl leider unfähig, und empfehlen Ihnen daher: Gehen Sie zu Cineplexx.</p>
+</div>
 
-<br/><br/><br/>
+<div *ngIf="booking.isValid">
+  <h2 class="d-print-none text-center">Vielen Dank!</h2>
+  <h4 class="text-center">Nachfolgend finden Sie Ihre Buchungsdaten</h4>
+  <h6 class="d-print-none text-center">Bitte <a href="javascript:print()">Drucken</a> Sie sich Ihre Daten aus und bringen Sie sie mit. </h6>
 
-<div class="border-top"></div>
+  <br/><br/><br/>
 
-<table class="table table-striped table-borderless">
+  <div class="border-top"></div>
 
-  <tbody>
-  <tr>
-    <td>
-      <p class="font-weight-bold">Film:</p>
-    </td>
-    <td>
-      <p>{{booking?.presentation}}</p>
-    </td>
-  </tr>
+  <table class="table table-striped table-borderless">
 
-  <tr>
-    <td>
-      <p class="font-weight-bold">Saal:</p>
-    </td>
-    <td>
-      <p>{{booking?.presentation?.roomName}}</p>
-    </td>
-  </tr>
+    <tbody>
+    <tr>
+      <td>
+        <p class="font-weight-bold">Film:</p>
+      </td>
+      <td>
+        <p>{{booking?.filmName}}</p>
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <p class="font-weight-bold">Beginn der Veranstaltung:</p>
-    </td>
-    <td>
-      <p>{{booking?.presentation?.weekDay + ', ' + booking?.presentation?.startTime}}</p>
-    </td>
-  </tr>
+    <tr>
+      <td>
+        <p class="font-weight-bold">Saal:</p>
+      </td>
+      <td>
+        <p>{{booking?.roomName}}</p>
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <p class="font-weight-bold">Plätze:</p>
-    </td>
-    <td>
-      <ul>
-        <li *ngFor="let seat of booking?.seats">
-          <p>Reihe: {{seat?.numberInSeatRow}}, Nummer: {{seat?.numberInSeatRow}}</p>
-        </li>
-      </ul>
-    </td>
-  </tr>
+    <tr>
+      <td>
+        <p class="font-weight-bold">Beginn der Veranstaltung:</p>
+      </td>
+      <td>
+        <p>{{booking?.weekDay + ', ' + booking?.startTime}}</p>
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <p class="font-weight-bold">Name:</p>
-    </td>
-    <td>
-      <p>{{booking?.name}}</p>
-    </td>
-  </tr>
+    <tr>
+      <td>
+        <p class="font-weight-bold">Plätze:</p>
+      </td>
+      <td>
+        <ul>
+          <li *ngFor="let seat of booking?.seats">
+            <p>Reihe: {{seat?.numberInSeatRow}}, Nummer: {{seat?.numberInSeatRow}}</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <p class="font-weight-bold d-print-none">Kreditkarteninformation:</p>
-    </td>
-    <td>
-      <p class="d-print-none">{{booking?.creditCardNo}}</p>
-    </td>
-  </tr>
+    <tr>
+      <td>
+        <p class="font-weight-bold">Name:</p>
+      </td>
+      <td>
+        <p>{{booking?.name}}</p>
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <p class="font-weight-bold">Gesamtpreis:</p>
-    </td>
-    <td>
-      <p>{{booking?.totalPrice | currency: 'EUR': 'symbol'}}</p>
-    </td>
-  </tr>
-  </tbody>
+    <tr>
+      <td>
+        <p class="font-weight-bold d-print-none">Kreditkarteninformation:</p>
+      </td>
+      <td>
+        <p class="d-print-none">{{booking?.cardNo}}</p>
+      </td>
+    </tr>
 
-</table>
+    <tr>
+      <td>
+        <p class="font-weight-bold">Gesamtpreis:</p>
+      </td>
+      <td>
+        <p>{{booking?.totalPrice | currency: 'EUR': 'symbol'}}</p>
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+
+
 
 <div class="row">
   <div>

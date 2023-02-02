@@ -21,6 +21,7 @@ public class CreateBookingCommand {
     private String weekDay;
     private String startTime;
     private BigDecimal totalPrice;
+    private String name;
     private String cardNo;
 
 }

@@ -6,6 +6,7 @@ import com.svenhandt.app.cinemaapp.roomsms.domain.query.enums.SeatType;
 import com.svenhandt.app.cinemaapp.roomsms.domain.query.repository.SeatToBookingViewsRepository;
 import com.svenhandt.app.cinemaapp.roomsms.domain.query.repository.SeatViewsRepository;
 import com.svenhandt.app.cinemaapp.shared.domain.coreapi.BookingAddedToSeatEvent;
+import com.svenhandt.app.cinemaapp.shared.domain.coreapi.BookingRemovedFromSeatEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class SeatViewsProjection {
 
     @EventHandler
     public void on(BookingAddedToSeatEvent event) {
-        String seatId = event.getSeatId();;
+        String seatId = event.getSeatId();
         SeatView seatView = seatViewsRepository.findById(seatId)
                 .orElseThrow(() -> new IllegalStateException("No seat with id " + seatId + " found!"));
         createSeatToBookingView(event, seatView);
@@ -31,6 +32,11 @@ public class SeatViewsProjection {
         seatViewsRepository.save(seatView);
     }
 
+    @EventHandler
+    public void on(BookingRemovedFromSeatEvent event) {
+        String seatToBookingViewId = event.getSeatId() + "__" + event.getBookingId();
+        seatToBookingViewsRepository.deleteById(seatToBookingViewId);
+    }
     private void createSeatToBookingView(BookingAddedToSeatEvent event, SeatView seatView) {
         String id = seatView.getId() + "__" + event.getBookingId();
         SeatToBookingView seatToBookingView = new SeatToBookingView();

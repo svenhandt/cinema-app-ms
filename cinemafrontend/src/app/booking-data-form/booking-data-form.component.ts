@@ -102,7 +102,8 @@ export class BookingDataFormComponent implements OnInit, OnDestroy {
       weekDay: this.presentation?.weekDay,
       startTime: this.presentation?.startTime,
       totalPrice: this.currentTotalforBooking,
-      cardNo: form.value.cardNumber,
+      name: form.value.cardName,
+      cardNo: form.value.cardNumber
     };
     return bookingCommand;
   }

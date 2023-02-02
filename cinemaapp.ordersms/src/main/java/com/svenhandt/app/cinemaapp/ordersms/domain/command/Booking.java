@@ -1,8 +1,6 @@
 package com.svenhandt.app.cinemaapp.ordersms.domain.command;
 
-import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.BookingCreatedEvent;
-import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.CreateBookingCommand;
-import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.SeatCreatedEvent;
+import com.svenhandt.app.cinemaapp.ordersms.domain.coreapi.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.CommandHandler;
@@ -12,6 +10,7 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.modelling.command.AggregateMember;
 import org.axonframework.spring.stereotype.Aggregate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,13 @@ public class Booking {
     @AggregateIdentifier
     private String id;
 
+    private String name;
     private String cardNo;
     private String filmName;
     private String roomName;
     private String weekDay;
     private String startTime;
+    private BigDecimal totalPrice;
     private boolean isValid;
 
     @AggregateMember
@@ -44,6 +45,15 @@ public class Booking {
         List<SeatCreatedEvent> seatCreatedEvents = buildSeatCreatedEvents(command);
         AggregateLifecycle.apply(bookingCreatedEvent);
         seatCreatedEvents.forEach(seatCreatedEvent -> AggregateLifecycle.apply(seatCreatedEvent));
+    }
+
+    @CommandHandler
+    public void on(SetBookingInvalidCommand command) {
+        BookingSetInvalidEvent bookingSetInvalidEvent = BookingSetInvalidEvent
+                .builder()
+                .bookingId(command.getBookingId())
+                .build();
+        AggregateLifecycle.apply(bookingSetInvalidEvent);
     }
 
     private void check(CreateBookingCommand command) {
@@ -75,11 +85,13 @@ public class Booking {
         return BookingCreatedEvent
                 .builder()
                 .id(command.getId())
+                .name(command.getName())
                 .cardNo(maskedCardNo)
                 .filmName(command.getFilmName())
                 .roomName(command.getRoomName())
                 .weekDay(command.getWeekDay())
                 .startTime(command.getStartTime())
+                .totalPrice(command.getTotalPrice())
                 .build();
     }
 
@@ -130,11 +142,13 @@ public class Booking {
     @EventSourcingHandler
     public void on(BookingCreatedEvent event) {
         this.id = event.getId();
+        this.name = event.getName();
         this.cardNo = event.getCardNo();
         this.filmName = event.getFilmName();
         this.roomName = event.getRoomName();
         this.weekDay = event.getWeekDay();
         this.startTime = event.getStartTime();
+        this.totalPrice = event.getTotalPrice();
         this.isValid = true;
     }
 
@@ -145,6 +159,11 @@ public class Booking {
         }
         Seat seat = new Seat(event.getId(), event.getSeatRow(), event.getNumberInSeatRow());
         seats.add(seat);
+    }
+
+    @EventSourcingHandler
+    public void on(BookingSetInvalidEvent event) {
+        isValid = false;
     }
 
 }

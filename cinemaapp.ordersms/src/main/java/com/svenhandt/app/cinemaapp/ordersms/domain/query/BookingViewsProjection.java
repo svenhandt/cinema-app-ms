@@ -74,7 +74,7 @@ public class BookingViewsProjection {
 
     private void emitToSubscriptionQueryIfLastSeat(String bookingId) {
         BookingView bookingView = findBookingView(bookingId);
-        List<SeatView> seatViews = bookingView.getSeatViews();
+        List<SeatView> seatViews = seatViewsRepository.findSeatViewsByBookingView(bookingView);
         if(seatViews != null && bookingView.getSeatCount() == seatViews.size()) {
             BookingRestView bookingRestView = bookingRestViewCreatorBean.createFrom(bookingView);
             queryUpdateEmitter.emit(FindBookingQuery.class, query -> StringUtils.equals(query.getBookingId(), bookingId), bookingRestView);

@@ -22,4 +22,12 @@ public class SeatView {
     @JoinColumn(name = "booking_id")
     private BookingView bookingView;
 
+    @Override
+    public String toString() {
+        return "SeatView{" +
+                "id='" + id + '\'' +
+                ", seatRow=" + seatRow +
+                ", numberInSeatRow=" + numberInSeatRow +
+                '}';
+    }
 }

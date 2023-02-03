@@ -28,4 +28,6 @@ public class BookingView {
             cascade = CascadeType.ALL)
     private List<SeatView> seatViews;
 
+
+
 }

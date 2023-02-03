@@ -17,5 +17,6 @@ public class BookingCreatedEvent {
     private String weekDay;
     private String startTime;
     private BigDecimal totalPrice;
+    private int seatCount;
 
 }

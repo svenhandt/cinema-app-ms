@@ -1,5 +1,5 @@
 package com.svenhandt.app.cinemaapp.roomsms.domain.query.enums;
 
 public enum SeatType {
-    NONE, AVAILABLE, OCCUPPIED
+    NONE, PHYSICAL
 }

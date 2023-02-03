@@ -3,6 +3,7 @@ package com.svenhandt.app.cinemaapp.roomsms.domain.query;
 import com.svenhandt.app.cinemaapp.roomsms.domain.coreapi.FindRoomsQuery;
 import com.svenhandt.app.cinemaapp.roomsms.domain.query.entity.RoomView;
 import com.svenhandt.app.cinemaapp.roomsms.domain.query.entity.SeatRowView;
+import com.svenhandt.app.cinemaapp.roomsms.domain.query.entity.SeatToBookingView;
 import com.svenhandt.app.cinemaapp.roomsms.domain.query.entity.SeatView;
 import com.svenhandt.app.cinemaapp.roomsms.domain.query.repository.RoomViewsRepository;
 import com.svenhandt.app.cinemaapp.roomsms.domain.query.rest.RoomRestView;
@@ -55,10 +56,22 @@ public class RoomViewsQueryHandler {
             for(SeatView seatView : seatViews) {
                 SeatRestView seatRestView = new SeatRestView();
                 BeanUtils.copyProperties(seatView, seatRestView);
+                addBookingIds(seatView, seatRestView);
                 seatRestViews.add(seatRestView);
             }
         }
         seatRowRestView.setSeats(seatRestViews);
+    }
+
+    private void addBookingIds(SeatView seatView, SeatRestView seatRestView) {
+        List<String> bookingIds = new ArrayList<>();
+        List<SeatToBookingView> seatToBookingViews = seatView.getSeatToBookingViews();
+        if(seatToBookingViews != null) {
+            for(SeatToBookingView seatToBookingView : seatToBookingViews) {
+                bookingIds.add(seatToBookingView.getBookingId());
+            }
+        }
+        seatRestView.setBookingIds(bookingIds);
     }
 
 }

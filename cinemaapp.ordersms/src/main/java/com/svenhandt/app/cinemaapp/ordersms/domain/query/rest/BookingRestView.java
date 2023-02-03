@@ -17,6 +17,7 @@ public class BookingRestView {
     private String startTime;
     private BigDecimal totalPrice;
     private boolean isValid;
+    private int seatCount;
 
     private List<SeatRestView> seats;
 

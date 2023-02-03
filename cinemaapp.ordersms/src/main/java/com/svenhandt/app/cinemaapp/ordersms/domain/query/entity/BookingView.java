@@ -22,6 +22,7 @@ public class BookingView {
     private String startTime;
     private BigDecimal totalPrice;
     private boolean isValid;
+    private int seatCount;
 
     @OneToMany(mappedBy = "bookingView",
             cascade = CascadeType.ALL)

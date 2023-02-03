@@ -14,12 +14,12 @@ export class BookingService {
     return this.http.post(environment.cinemaBaseUrl + 'ordersms/booking/save', bookingCommand);
   }
 
-  fetchBookingConfirmation(id: number) {
+  fetchBookingConfirmation(id: string) {
     let params = new HttpParams();
     if(id !== undefined) {
       params = params.append('bookingId', id);
     }
-    return this.http.get<BookingModel>(environment.cinemaBaseUrl + 'booking/confirmation', {
+    return this.http.get<BookingModel>(environment.cinemaBaseUrl + 'ordersms/booking/get', {
       params: params
     });
   }

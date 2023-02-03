@@ -98,7 +98,7 @@ public class RoomViewsProjection {
         SeatView seatView = new SeatView();
         seatView.setId(event.getSeatId());
         seatView.setNumberInSeatRow(event.getNumberInSeatRow());
-        seatView.setSeatType(SeatType.AVAILABLE);
+        seatView.setSeatType(SeatType.PHYSICAL);
         seatView.setSeatRow(seatRowView);
         seatViewsRepository.save(seatView);
     }

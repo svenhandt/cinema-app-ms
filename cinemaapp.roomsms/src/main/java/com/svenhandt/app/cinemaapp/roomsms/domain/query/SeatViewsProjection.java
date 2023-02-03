@@ -28,7 +28,6 @@ public class SeatViewsProjection {
         SeatView seatView = seatViewsRepository.findById(seatId)
                 .orElseThrow(() -> new IllegalStateException("No seat with id " + seatId + " found!"));
         createSeatToBookingView(event, seatView);
-        seatView.setSeatType(SeatType.OCCUPPIED);
         seatViewsRepository.save(seatView);
     }
 

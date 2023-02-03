@@ -82,6 +82,7 @@ public class Booking {
 
     private BookingCreatedEvent buildBookingCreatedEvent(CreateBookingCommand command) {
         String maskedCardNo = StringUtils.substring(command.getCardNo(), 0, 4) + "************";
+        int seatCount = command.getSeatIds().size();
         return BookingCreatedEvent
                 .builder()
                 .id(command.getId())
@@ -92,6 +93,7 @@ public class Booking {
                 .weekDay(command.getWeekDay())
                 .startTime(command.getStartTime())
                 .totalPrice(command.getTotalPrice())
+                .seatCount(seatCount)
                 .build();
     }
 

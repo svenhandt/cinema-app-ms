@@ -9,11 +9,14 @@ import com.svenhandt.app.cinemaapp.ordersms.domain.query.entity.SeatView;
 import com.svenhandt.app.cinemaapp.ordersms.domain.query.repository.BookingViewsRepository;
 import com.svenhandt.app.cinemaapp.ordersms.domain.query.repository.SeatViewsRepository;
 import com.svenhandt.app.cinemaapp.ordersms.domain.query.rest.BookingRestView;
+import org.apache.commons.lang3.StringUtils;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @ProcessingGroup("booking")
@@ -43,6 +46,7 @@ public class BookingViewsProjection {
         bookingView.setStartTime(event.getStartTime());
         bookingView.setTotalPrice(event.getTotalPrice());
         bookingView.setValid(true);
+        bookingView.setSeatCount(event.getSeatCount());
         bookingViewsRepository.save(bookingView);
     }
 
@@ -56,22 +60,25 @@ public class BookingViewsProjection {
         seatView.setNumberInSeatRow(event.getNumberInSeatRow());
         seatView.setBookingView(bookingView);
         seatViewsRepository.save(seatView);
-        emitToSubscriptionQuery(bookingId);
+        emitToSubscriptionQueryIfLastSeat(bookingId);
     }
 
     @EventHandler
     public void on(BookingSetInvalidEvent event) {
-        String bookingId = event.getBookingId();;
+        String bookingId = event.getBookingId();
         BookingView bookingView = bookingViewsRepository.findById(bookingId)
                 .orElseThrow(() -> new IllegalStateException("No booking with id " + bookingId + " was found!"));
         bookingView.setValid(false);
         bookingViewsRepository.save(bookingView);
     }
 
-    private void emitToSubscriptionQuery(String bookingId) {
+    private void emitToSubscriptionQueryIfLastSeat(String bookingId) {
         BookingView bookingView = findBookingView(bookingId);
-        BookingRestView bookingRestView = bookingRestViewCreatorBean.createFrom(bookingView);
-        queryUpdateEmitter.emit(FindBookingQuery.class, query -> true, bookingRestView);
+        List<SeatView> seatViews = bookingView.getSeatViews();
+        if(seatViews != null && bookingView.getSeatCount() == seatViews.size()) {
+            BookingRestView bookingRestView = bookingRestViewCreatorBean.createFrom(bookingView);
+            queryUpdateEmitter.emit(FindBookingQuery.class, query -> StringUtils.equals(query.getBookingId(), bookingId), bookingRestView);
+        }
     }
 
     private BookingView findBookingView(String bookingId) {

@@ -27,10 +27,10 @@ export class BookingConfirmationComponent implements OnInit, OnDestroy {
   }
 
   initRouteParams() {
-    let bookingId = 0;
+    let bookingId = '';
     this.route.params.subscribe(
       (params: Params) => {
-        bookingId = +params['id'];
+        bookingId = params['id'];
       }
     );
     return bookingId;

@@ -28,12 +28,12 @@
     <td *ngFor="let seat of seatRow.seats">
 
       <input type="checkbox" class="seatCheckbox"
-             *ngIf="seat?.seatType === 'AVAILABLE'"
+             *ngIf="seat?.seatType === 'PHYSICAL' && !seatOccuppied(seat)"
             (click)="isInBooking(seat.id) ? onRemoveSeatFromBooking(seat.id) : onAddSeatToBooking(seat.id)"
             [checked]="isInBooking(seat.id)"/>
 
 
-      <input type="checkbox" *ngIf="seat?.seatType === 'OCCUPPIED'"
+      <input type="checkbox" *ngIf="seatOccuppied(seat)"
              disabled="disabled"/>
 
     </td>

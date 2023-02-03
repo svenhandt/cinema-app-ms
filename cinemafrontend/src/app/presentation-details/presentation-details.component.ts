@@ -6,6 +6,7 @@ import {BookingService} from "../booking.service";
 import {PresentationModel} from "../models/presentation.model";
 import {RoomModel} from "../models/room.model";
 import {finalize} from "rxjs/operators";
+import {SeatModel} from "../models/seat.model";
 
 @Component({
   selector: 'app-presentation-details',
@@ -87,6 +88,17 @@ export class PresentationDetailsComponent implements OnInit, OnDestroy {
     let result = false;
     this.seatIdsForBooking.forEach((currentSeatId, index) => {
       if (seatIdToCheck === currentSeatId) {
+        result = true;
+      }
+    });
+    return result;
+  }
+
+  seatOccuppied(seat: SeatModel | undefined): boolean {
+    let result = false;
+    seat?.bookingIds?.forEach((bookingId) => {
+      if(this.presentation?.id != undefined
+        && bookingId.includes(this.presentation?.id)) {
         result = true;
       }
     });
